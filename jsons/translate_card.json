@@ -1,0 +1,21 @@
+{
+    "google_translate_state":{
+        "input_text":"hello",
+        "result_text": "hello",
+        "from" : "en",
+        "to" : "en"
+    },
+    "text_to_speech_state":{
+        "voice" : "Alex (en-US)",
+        "text_to_speech_text" : "hello",
+        "pitch" : 1.0,
+        "volume" : 0.8,
+        "rate" : 1.0
+    },
+    "speech_to_text_state":{
+        "listen_duration": 20,
+        "pause_duration" : 3,
+        "recognized_words" : "hello",
+        "current_locale_id" : "en-US"
+    }
+}
