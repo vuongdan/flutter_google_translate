@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_ts5/designs/app_themes.dart';
-import 'package:flutter_ts5/screens/home.dart';
+import 'UI/screens/screens.dart';
 
-void main() async {
+void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
-    Key? key,
-  }) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: MyThemeData.darkTheme,
-      home: const Home(),
+    return const MaterialApp(
+      home: Home(),
     );
   }
 }

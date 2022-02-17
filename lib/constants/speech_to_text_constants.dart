@@ -40,43 +40,6 @@ class SpeechToTextConstants {
     "hu-HU",
     "id-ID",
   ];
-  static String mapSpeechToTextLocaleIdToLocaleName(String id) {
-    Map<String, String> map = {
-      "ar-SA": "Arabic (Saudi Arabia)",
-      "yue-CN": "Cantonese (China mainland)",
-      "ca-ES": "Catalan (Spain)",
-      "zh-CN": "Chinese (China mainland)",
-      "zh-HK": "Chinese (Hong Kong)",
-      "zh-TW": "Chinese (Taiwan)",
-      "hr-HR": "Croatian (Croatia)",
-      "cs-CZ": "Czech (Czechia)",
-      "da-DK": "Danish (Denmark)",
-      "nl-BE": "Dutch (Belgium)",
-      "nl-NL": "Dutch (Netherlands)",
-      "en-AU": "English (Australia)",
-      "en-CA": "English (Canada)",
-      "en-IN": "English (India)",
-      "en-ID": "English (Indonesia)",
-      "en-IE": "English (Ireland)",
-      "en-NZ": "English (New Zealand)",
-      "en-PH": "English (Philippines)",
-      "en-SA": "English (Saudi Arabia)",
-      "en-SG": "English (Singapore)",
-      "en-ZA": "English (South Africa)",
-      "en-AE": "English (United Arab Emirates)",
-      "en-GB": "English (United Kingdom)",
-      "en-US": "English (United States)",
-      "fi-FI": "Finnish (Finland)",
-      "fr-BE": "French (Belgium)",
-      "fr-CA": "French (Canada)",
-      "fr-FR": "French (France)",
-      "fr-CH": "French (Switzerland)",
-      "de-AT": "German (Austria)",
-      "de-DE": "German (Germany)",
-      "de-CH": "German (Switzerland)",
-      "el-GR": "Greek (Greece)",
-      "he-IL": "Hebrew (Israel)",
-    };
-    return map[id] ?? "en-US";
-  }
+  // GoogleTranslateConstants.mapLanguageCodeToLanguageName(element.substring(0, 2)) to LanguageName
+  // (3,5).tolowercase to flag code
 }
