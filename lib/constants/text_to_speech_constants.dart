@@ -1,3 +1,5 @@
+import '../logic_bloc/blocs.dart';
+
 class TextToSpeechConstants {
   static const List<String> languages = [
     "fr-CA",
@@ -154,13 +156,4 @@ class TextToSpeechConstants {
     //TextToSpeechConstants.mapStringToVoiceObject(voice).locale.substring(3,5).toLowerCase() to get flagcode
     //TextToSpeechConstants.mapStringToVoiceObject(voice).locale.substring(0,2).toLowerCase() to get LanguageName
   }
-}
-
-class Voice {
-  final String name;
-  final String locale;
-  const Voice({
-    required this.name,
-    required this.locale,
-  });
 }

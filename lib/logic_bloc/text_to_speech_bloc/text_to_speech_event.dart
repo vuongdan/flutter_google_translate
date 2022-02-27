@@ -7,7 +7,12 @@ abstract class TextToSpeechEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TextToSpeechInitData extends TextToSpeechEvent {}
+class TextToSpeechInitData extends TextToSpeechEvent {
+  final TextToSpeechState state;
+  const TextToSpeechInitData({
+    required this.state,
+  });
+}
 
 class TextToSpeechPlay extends TextToSpeechEvent {
   final String text;
@@ -15,6 +20,15 @@ class TextToSpeechPlay extends TextToSpeechEvent {
   const TextToSpeechPlay({
     required this.text,
     required this.voice,
+  });
+}
+
+class TextToSpeechPlay2 extends TextToSpeechEvent {
+  final String text;
+  final Voice voice2;
+  const TextToSpeechPlay2({
+    required this.text,
+    required this.voice2,
   });
 }
 

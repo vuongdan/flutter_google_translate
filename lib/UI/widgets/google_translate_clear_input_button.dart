@@ -9,11 +9,15 @@ class GoogleTranslateClearInputButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return IconButton(
         onPressed: () {
           context
               .read<GoogleTranslateBloc>()
               .add(const GoogleTranslateTyping(inputText: ""));
+          // context
+          //     .read<SpeechToTextBloc>()
+          //     .add(SpeechToTextWordByWord(currentText: ""));
         },
         icon: const Icon(Icons.cancel));
   }

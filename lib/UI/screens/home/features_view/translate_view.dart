@@ -5,9 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_ts5/UI/widgets/widgets.dart';
 import 'package:flutter_ts5/constants/google_translate_constants.dart';
-import 'package:flutter_ts5/constants/text_to_speech_constants.dart';
 
-import '../../logic_bloc/blocs.dart';
+import '../../../../logic_bloc/blocs.dart';
 
 class TranslateView extends StatelessWidget {
   final double width;
@@ -28,7 +27,6 @@ class TranslateView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           LanguageField(height: height, width: width),
-
           const Divider(),
           Expanded(
               child: SizedBox(
@@ -42,11 +40,10 @@ class TranslateView extends StatelessWidget {
                 const SizedBox(
                   height: 2,
                 ),
-                ResultField(width: width, height: height)
+                ResultField(width: width, height: height - 40)
               ],
             ),
           )),
-          // input & result field
         ],
       ),
     );
@@ -109,13 +106,7 @@ class InputField extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              TextToSpeechPlayButton(
-                  voice: Voice(
-                      name: "",
-                      locale: context
-                          .watch<SpeechToTextBloc>()
-                          .state
-                          .currentLocaleId),
+              TextToSpeechPlayButton1(
                   text: context.watch<GoogleTranslateBloc>().state.inputText),
               Text(GoogleTranslateConstants.maplanguageCodeToName(
                       languageCode: context
@@ -171,8 +162,7 @@ class ResultField extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              TextToSpeechPlayButton(
-                voice: context.watch<TextToSpeechBloc>().state.voice,
+              TextToSpeechPlayButton2(
                 text: context.watch<GoogleTranslateBloc>().state.resultText,
               ),
               Text(
@@ -186,7 +176,10 @@ class ResultField extends StatelessWidget {
               ),
               Spacer(),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<DatabaseBloc>().add(DatabaseCreateCard(
+                        state: context.read<GoogleTranslateBloc>().state));
+                  },
                   icon: Icon(
                     Icons.star_border,
                     color: Colors.white,

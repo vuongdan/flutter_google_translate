@@ -1,0 +1,52 @@
+{
+    "cards" : {
+      "0453dcf0-96d8-11ec-be61-498ed65b083f" : {
+        "create_at" : "2022-02-26 14:45:07.135526",
+        "is_pinned" : false,
+        "last_update" : "2022-02-26 14:45:07.135526",
+        "state" : {
+          "input_text" : "",
+          "result_text" : "",
+          "source_language" : "auto",
+          "target_language" : "vi"
+        }
+      },
+      "09e333f0-96d8-11ec-b81a-2b950e0c7519" : {
+        "create_at" : "2022-02-26 14:45:16.463840",
+        "is_pinned" : false,
+        "last_update" : "2022-02-26 14:45:16.463840",
+        "state" : {
+          "input_text" : "",
+          "result_text" : "",
+          "source_language" : "auto",
+          "target_language" : "vi"
+        }
+      },
+      "e2158940-96d7-11ec-af29-6d6f29c6d669" : {
+        "create_at" : "2022-02-26 14:44:09.692919",
+        "is_pinned" : false,
+        "last_update" : "2022-02-26 14:44:09.692919",
+        "state" : {
+          "input_text" : "",
+          "result_text" : "",
+          "source_language" : "auto",
+          "target_language" : "vi"
+        }
+      }
+    },
+    "settings" : {
+      "speech_to_text_state" : {
+        "listen_duration" : 25,
+        "pause_duration" : 3
+      },
+      "text_to_speech_state" : {
+        "pitch" : 1,
+        "rate" : 0.5,
+        "volume" : 0.8
+      }
+    },
+    "user" : {
+      "name" : "VuongDan"
+    }
+  }
+  

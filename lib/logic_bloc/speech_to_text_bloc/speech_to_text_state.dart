@@ -4,7 +4,7 @@ enum SpeechToTextStatus { recognizing, ready, unknown }
 
 class SpeechToTextState extends Equatable {
   const SpeechToTextState({
-    this.listenDuration = 30,
+    this.listenDuration = 15,
     this.pauseDuration = 3,
     this.recognizedWords = "",
     this.currentLocaleId = "",
@@ -45,4 +45,22 @@ class SpeechToTextState extends Equatable {
       status: status ?? this.status,
     );
   }
+
+  factory SpeechToTextState.fromJson(String str) =>
+      SpeechToTextState.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory SpeechToTextState.fromMap(Map<String, dynamic> json) =>
+      SpeechToTextState(
+        listenDuration: json["listen_duration"],
+        pauseDuration: json["pause_duration"],
+        currentLocaleId: json["current_locale_id"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "listen_duration": listenDuration,
+        "pause_duration": pauseDuration,
+        "current_locale_id": currentLocaleId,
+      };
 }

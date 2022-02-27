@@ -12,6 +12,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  authentication_repository:
+    path: packages/authentication_repository
+  form_inputs:
+    path: packages/form_inputs
+  flow_builder: ^0.0.4
 
 
   cupertino_icons: ^1.0.2
@@ -25,6 +30,11 @@ dependencies:
   stream_transform: ^2.0.0
   avatar_glow: ^2.0.2
   shared_preferences: ^2.0.13
+  uuid: ^3.0.5
+
+  firebase_database: ^9.0.6
+  firebase_auth: ^3.3.7
+  firebase_core: ^1.12.0
 
 
 dev_dependencies:

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_ts5/constants/google_translate_constants.dart';
 
-import '../../logic_bloc/blocs.dart';
-import '../widgets/widgets.dart';
+import '../../../../logic_bloc/blocs.dart';
+import '../../../widgets/widgets.dart';
 
 class SettingsView extends StatelessWidget {
   final double width;
@@ -99,9 +99,9 @@ class SpeechToTextSettingView extends StatelessWidget {
                     const Spacer(),
                     IconButton(
                         onPressed: () {
-                          context
-                              .read<SpeechToTextBloc>()
-                              .add(SpeechToTextInitData());
+                          // context
+                          //     .read<SpeechToTextBloc>()
+                          //     .add(SpeechToTextInitData());
                         },
                         icon: const Icon(Icons.autorenew)),
                   ],
@@ -109,13 +109,13 @@ class SpeechToTextSettingView extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => MasterMenuDialog(
-                            width: width,
-                            height: height,
-                            list: list,
-                          ));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MasterMenu(
+                                list: list,
+                                menuTitle: "Current Locales",
+                              )));
                 },
                 child: SizedBox(
                   height: 50,
@@ -230,9 +230,12 @@ class TextToSpeechSettingView extends StatelessWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: () {
-                        context
-                            .read<TextToSpeechBloc>()
-                            .add(TextToSpeechInitData());
+                        context.read<TextToSpeechBloc>().add(
+                            TextToSpeechInitData(
+                                state: context
+                                    .read<DatabaseBloc>()
+                                    .state
+                                    .textToSpeechState));
                       },
                       icon: const Icon(Icons.autorenew)),
                 ],
@@ -240,13 +243,13 @@ class TextToSpeechSettingView extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) => MasterMenuDialog(
-                          width: width,
-                          height: height,
-                          list: list,
-                        ));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MasterMenu(
+                              list: list,
+                              menuTitle: "Voices",
+                            )));
               },
               child: SizedBox(
                 height: 50,

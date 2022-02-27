@@ -8,15 +8,9 @@ abstract class GoogleTranslateEvent extends Equatable {
 }
 
 class GoogleTranslateInitData extends GoogleTranslateEvent {
-  final String inputText;
-  final String resultText;
-  final String from;
-  final String to;
+  final GoogleTranslateState state;
   const GoogleTranslateInitData({
-    required this.inputText,
-    required this.resultText,
-    required this.from,
-    required this.to,
+    required this.state,
   });
 }
 
@@ -28,7 +22,7 @@ class GoogleTranslateTyping extends GoogleTranslateEvent {
 }
 
 class GoogleTranslateChangeSourceLanguage extends GoogleTranslateEvent {
-  final String? from;
+  final String from;
   const GoogleTranslateChangeSourceLanguage({
     required this.from,
   });

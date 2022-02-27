@@ -25,11 +25,10 @@ class SourceLanguageBox extends StatelessWidget {
           title: Text(
               GoogleTranslateConstants.maplanguageCodeToName(languageCode: e)),
           onTap: () {
-            // context.read<TextToSpeechBloc>().add(
-            //     TextToSpeechChangeVoice(newVoice: Voice(name: "", locale: e)));
             context
                 .read<GoogleTranslateBloc>()
                 .add(GoogleTranslateChangeSourceLanguage(from: e));
+            print(e);
             Navigator.pop(context);
           },
         );
@@ -40,13 +39,13 @@ class SourceLanguageBox extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => MasterMenuDialog(
-                      width: width,
-                      height: height,
-                      list: list,
-                    ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MasterMenu(
+                          list: list,
+                          menuTitle: "Source Languages",
+                        )));
           },
           child: SizedBox(
             height: height / 12,
@@ -86,6 +85,7 @@ class TargetLanguageBox extends StatelessWidget {
                 .read<GoogleTranslateBloc>()
                 .add(GoogleTranslateChangeTargetLanguage(to: e));
             Navigator.pop(context);
+            print(e);
           },
         );
       },
@@ -95,13 +95,13 @@ class TargetLanguageBox extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => MasterMenuDialog(
-                      width: width,
-                      height: height,
-                      list: list,
-                    ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MasterMenu(
+                          list: list,
+                          menuTitle: "Target Languages",
+                        )));
           },
           child: SizedBox(
             height: height / 12,

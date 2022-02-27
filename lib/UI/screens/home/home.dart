@@ -4,26 +4,35 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:translator/translator.dart';
 
-import '../../logic_bloc/blocs.dart';
-import '../features_view/views.dart';
+import '../../../logic_bloc/blocs.dart';
+import 'features_view/views.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({
+    Key? key,
+  }) : super(key: key);
+  static Page page() => const MaterialPage<void>(child: Home());
 
   @override
   Widget build(BuildContext context) {
+    final id = context.select((AppBloc bloc) => bloc.state.user.id);
     return MultiBlocProvider(providers: [
+      BlocProvider(create: (_) => DatabaseBloc(id: id)),
       BlocProvider(create: (_) => SpeechToTextBloc(speech: SpeechToText())),
       BlocProvider(create: (_) => TextToSpeechBloc(flutterTts: FlutterTts())),
       BlocProvider(
           create: (_) =>
               GoogleTranslateBloc(googleTranslator: GoogleTranslator()))
-    ], child: const HomeScreen());
+    ], child: HomeScreen(id: id));
   }
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String id;
+  const HomeScreen({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -48,11 +57,24 @@ class _HomeScreenState extends State<HomeScreen> {
     blocsInitData();
   }
 
-  void blocsInitData() {
-    context.read<GoogleTranslateBloc>().add(const GoogleTranslateInitData(
-        inputText: "", resultText: "", from: "vi", to: "en"));
-    context.read<SpeechToTextBloc>().add(SpeechToTextInitData());
-    context.read<TextToSpeechBloc>().add(TextToSpeechInitData());
+  Future<void> blocsInitData() async {
+    final DatabaseState state =
+        await context.read<DatabaseBloc>().getData(widget.id);
+    final SpeechToTextState speechId =
+        await context.read<SpeechToTextBloc>().initData();
+    final targetLanguage = speechId.currentLocaleId.substring(0, 2);
+    context.read<GoogleTranslateBloc>().add(GoogleTranslateInitData(
+        state: GoogleTranslateState(
+            inputText: "",
+            resultText: "",
+            sourceLanguage: "auto",
+            targetLanguage: targetLanguage)));
+    context
+        .read<SpeechToTextBloc>()
+        .add(SpeechToTextInitData(state: state.speechToTextState));
+    context
+        .read<TextToSpeechBloc>()
+        .add(TextToSpeechInitData(state: state.textToSpeechState));
   }
 
   @override
@@ -68,9 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
           height: scafoldHeight,
         );
         break;
-      case 1:
-        child = SavedCardsView(width: scafoldWidth, height: scafoldHeight);
-        break;
+      // case 1:
+      //   child = const SavedCardsView(
+      //       // width: scafoldWidth, height: scafoldHeight
+      //       );
+      //   break;
       case 3:
         child = SettingsView(
           height: scafoldHeight,
@@ -82,6 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child = SizedBox(
           width: scafoldWidth,
           height: scafoldHeight,
+          child: Center(
+              child:
+                  Text(context.select((AppBloc bloc) => bloc.state.user.id))),
         );
     }
 

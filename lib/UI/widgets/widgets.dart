@@ -6,4 +6,4 @@ export 'google_translate_swap_languages_button.dart';
 export 'language_box.dart';
 export 'input_text.dart';
 export 'flag_container.dart';
-export 'master_menu_dialog.dart';
+export 'master_menu.dart';

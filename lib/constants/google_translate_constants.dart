@@ -208,7 +208,7 @@ class GoogleTranslateConstants {
       'yo': 'Yoruba',
       'zu': 'Zulu'
     };
-    return map[languageCode] ?? "Unknown";
+    return map[languageCode] ?? "Automatic";
     // 106 languages.
   }
 }

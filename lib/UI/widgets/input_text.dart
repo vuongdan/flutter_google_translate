@@ -23,9 +23,12 @@ class InputText extends StatelessWidget {
           context
               .watch<GoogleTranslateBloc>()
               .add(GoogleTranslateTyping(inputText: state.recognizedWords));
-          return Text(state.recognizedWords);
+          return Text(
+            state.recognizedWords,
+          );
         } else {
           return TextField(
+            decoration: const InputDecoration(border: InputBorder.none),
             controller: textEditingController,
             onChanged: (text) {
               context

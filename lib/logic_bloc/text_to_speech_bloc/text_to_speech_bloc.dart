@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -13,10 +13,9 @@ class TextToSpeechBloc extends Bloc<TextToSpeechEvent, TextToSpeechState> {
   final FlutterTts flutterTts;
   TextToSpeechBloc({required this.flutterTts})
       : super(const TextToSpeechState()) {
-    print("TextToSpeechBloc created");
-
     on<TextToSpeechInitData>(_onTextToSpeechInitialData);
     on<TextToSpeechPlay>(_onTextToSpeechPlay);
+    on<TextToSpeechPlay2>(_onTextToSpeechPlay2);
     on<TextToSpeechStop>(_onTextToSpeechStop);
     on<TextToSpeechChangePitch>(_onTextToSpeechChangePitch);
     on<TextToSpeechChangeVolume>(_onTextToSpeechChangeVolume);
@@ -36,9 +35,9 @@ class TextToSpeechBloc extends Bloc<TextToSpeechEvent, TextToSpeechState> {
     }));
 
     emitter(state.copyWith(
-        volume: 0.8,
-        pitch: 1.0,
-        rate: 0.5,
+        volume: event.state.volume,
+        pitch: event.state.pitch,
+        rate: event.state.rate,
         languages: languages,
         voices: voices,
         voice: voices.last));
@@ -62,9 +61,30 @@ class TextToSpeechBloc extends Bloc<TextToSpeechEvent, TextToSpeechState> {
         // event.text != null &&
         event.text != "") {
       await flutterTts.speak(event.text);
-      emitter(state.copyWith(status: TextToSpeechStatus.playing));
-      print(event.text);
-      print(event.voice.locale);
+      emitter(state.copyWith(status: TextToSpeechStatus.playing1));
+    }
+    flutterTts.setCompletionHandler(() {
+      add(TextToSpeechStop());
+    });
+  }
+
+  Future<void> _onTextToSpeechPlay2(
+      TextToSpeechPlay2 event, Emitter<TextToSpeechState> emitter) async {
+    if (event.voice2.name == "") {
+      await flutterTts.setLanguage(event.voice2.locale);
+    } else {
+      await flutterTts
+          .setVoice({"name": event.voice2.name, "locale": event.voice2.locale});
+    }
+
+    await flutterTts.setVolume(state.volume);
+    await flutterTts.setPitch(state.pitch);
+    await flutterTts.setSpeechRate(state.rate);
+    await flutterTts.setIosAudioCategory(IosTextToSpeechAudioCategory.playback,
+        [IosTextToSpeechAudioCategoryOptions.defaultToSpeaker]);
+    if (event.text != "") {
+      emitter(state.copyWith(status: TextToSpeechStatus.playing2));
+      await flutterTts.speak(event.text);
     }
     flutterTts.setCompletionHandler(() {
       add(TextToSpeechStop());

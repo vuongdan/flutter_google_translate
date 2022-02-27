@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -14,17 +16,16 @@ EventTransformer<E> debounce<E>(Duration duration) {
   };
 }
 
-const debounceDuration = Duration(milliseconds: 300);
+const debounceDuration = Duration(milliseconds: 50);
 
 class GoogleTranslateBloc
     extends Bloc<GoogleTranslateEvent, GoogleTranslateState> {
   final GoogleTranslator googleTranslator;
   GoogleTranslateBloc({required this.googleTranslator})
       : super(const GoogleTranslateState()) {
-    print("GoogleTranslateBloc created");
     on<GoogleTranslateInitData>(_onGoogleTranslateInitData);
     on<GoogleTranslateTyping>(_onTypingAndTranslate);
-    on<Translate>(_onTranslate);
+    on<Translate>(_onTranslate, transformer: debounce(debounceDuration));
     on<GoogleTranslateChangeSourceLanguage>(
         _onGoogleTranslateChangeSourceLanguage);
     on<GoogleTranslateChangeTargetLanguage>(
@@ -35,25 +36,28 @@ class GoogleTranslateBloc
   Future<void> _onGoogleTranslateInitData(GoogleTranslateInitData event,
       Emitter<GoogleTranslateState> emitter) async {
     emitter(state.copyWith(
-        inputText: event.inputText,
-        resultText: event.resultText,
-        sourceLanguage: event.from,
-        targetLanguage: event.to));
+        inputText: event.state.inputText,
+        resultText: event.state.resultText,
+        sourceLanguage: event.state.sourceLanguage,
+        targetLanguage: event.state.targetLanguage));
   }
 
   void _onTypingAndTranslate(GoogleTranslateTyping event,
       Emitter<GoogleTranslateState> emitter) async {
     emitter(state.copyWith(inputText: event.inputText));
     add(Translate());
-    print(state.inputText);
   }
 
   Future<void> _onTranslate(
       Translate event, Emitter<GoogleTranslateState> emitter) async {
     if (state.inputText != "") {
-      final resultText = await googleTranslator.translate(state.inputText,
-          from: state.sourceLanguage, to: state.targetLanguage);
-      emitter(state.copyWith(resultText: resultText.text));
+      try {
+        final resultText = await googleTranslator.translate(state.inputText,
+            from: state.sourceLanguage, to: state.targetLanguage);
+        emitter(state.copyWith(resultText: resultText.text));
+      } catch (e) {
+        print(e);
+      }
     } else {
       emitter(state.copyWith(resultText: ""));
     }

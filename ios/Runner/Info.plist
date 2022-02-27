@@ -47,5 +47,10 @@
     <string>Reconition use and display input</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Defect speech input</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

@@ -1,4 +1,6 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls, avoid_print
+// ignore_for_file: avoid_function_literals_in_foreach_calls, avoid_print, invalid_use_of_visible_for_testing_member
+
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -10,8 +12,6 @@ part 'speech_to_text_state.dart';
 class SpeechToTextBloc extends Bloc<SpeechToTextEvent, SpeechToTextState> {
   final SpeechToText speech;
   SpeechToTextBloc({required this.speech}) : super(const SpeechToTextState()) {
-    print("SpeechToTextBloc created");
-
     on<SpeechToTextInitData>(_onSpeechToTextInitData);
     on<SpeechToTextReadyToRecordnize>(_onSpeechToTextReadyToRecordnize);
     on<SpeechToTextStartRecognizing>(_onSpeechToTextStartRecordnizing);
@@ -25,6 +25,15 @@ class SpeechToTextBloc extends Bloc<SpeechToTextEvent, SpeechToTextState> {
   }
   Future<void> _onSpeechToTextInitData(
       SpeechToTextInitData event, Emitter<SpeechToTextState> emitter) async {
+    emitter(state.copyWith(
+      listenDuration: event.state.listenDuration,
+      pauseDuration: event.state.pauseDuration,
+      status: SpeechToTextStatus.ready,
+      recognizedWords: "Enter Voice",
+    ));
+  }
+
+  Future<SpeechToTextState> initData() async {
     bool available = await speech.initialize(
         onStatus: (status) {
           if (status == "done") {
@@ -43,15 +52,14 @@ class SpeechToTextBloc extends Bloc<SpeechToTextEvent, SpeechToTextState> {
           });
         }
         final systmLocale = await speech.systemLocale();
-        emitter(state.copyWith(
-            listenDuration: 30,
-            pauseDuration: 3,
-            status: SpeechToTextStatus.ready,
-            recognizedWords: "Enter Voice",
+        emit(state.copyWith(
             currentLocaleId: systmLocale?.localeId,
             localeNames: stateLocaleNames));
       } catch (_) {}
     } else {}
+    return SpeechToTextState(
+      currentLocaleId: state.currentLocaleId,
+    );
   }
 
   void _onSpeechToTextReadyToRecordnize(
